@@ -46,5 +46,8 @@ const fetchFromSource = async (source: TSources, filters: NewsFilters = {}): Pro
 
 export const fetchNewsFromSources = async (sources: TSources[], filters?: NewsFilters): Promise<Article[]> => {
   const results = await Promise.all(sources.map(source => fetchFromSource(source, filters)));
-  return results.flat().sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  return results
+    .flat()
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+    .filter(article => !filters?.authors?.length || (article.author && filters.authors.includes(article.author)));
 };

@@ -9,7 +9,6 @@ export const getNewsApiFilters = (filters: NewsFilters): FilterParams => {
     const categories = filters.categories.map(cat => CATEGORY_MAPPING[cat]?.newsapi).filter(Boolean);
     if (categories.length) params.category = categories.join(",");
   }
-  if (filters.authors?.length) params.author = filters.authors.join(",");
   if (filters.fromDate) params.from = filters.fromDate;
   if (filters.toDate) params.to = filters.toDate;
   return params;
@@ -22,7 +21,6 @@ export const getGuardianFilters = (filters: NewsFilters): FilterParams => {
     const categories = filters.categories.map(cat => CATEGORY_MAPPING[cat]?.guardian).filter(Boolean);
     if (categories.length) params.section = categories.join("|");
   }
-  if (filters.authors?.length) params["author"] = filters.authors.join("|");
   if (filters.fromDate) params["from-date"] = filters.fromDate;
   if (filters.toDate) params["to-date"] = filters.toDate;
   return params;
@@ -34,11 +32,6 @@ export const getNytFilters = (filters: NewsFilters): FilterParams => {
   if (filters.categories?.length) {
     const categories = filters.categories.map(cat => CATEGORY_MAPPING[cat]?.nyt).filter(Boolean);
     if (categories.length) params.fq = `news_desk:(${categories.map(c => `"${c}"`).join(" OR ")})`;
-  }
-  if (filters.authors?.length) {
-    params.fq = params.fq
-      ? `${params.fq} AND byline:(${filters.authors.map(author => `"${author}"`).join(" OR ")})`
-      : `byline:(${filters.authors.map(author => `"${author}"`).join(" OR ")})`;
   }
   if (filters.fromDate) params.begin_date = filters.fromDate.replace(/-/g, "");
   if (filters.toDate) params.end_date = filters.toDate.replace(/-/g, "");
