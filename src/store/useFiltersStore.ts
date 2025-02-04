@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { usePreferencesStore } from "./usePreferencesStore";
 
 type Filters = {
   query: string;
@@ -12,6 +13,7 @@ type Filters = {
 type FiltersState = {
   filters: Filters;
   setFilter: (field: keyof Filters, value: Filters[keyof Filters]) => void;
+  initializeFilters: () => void;
 };
 
 export const useFiltersStore = create<FiltersState>(set => ({
@@ -28,4 +30,33 @@ export const useFiltersStore = create<FiltersState>(set => ({
     set(state => ({
       filters: { ...state.filters, [field]: value },
     })),
+
+  initializeFilters: () => {
+    const preferences = usePreferencesStore.getState().preferences;
+    set({
+      filters: {
+        query: "",
+        categories: preferences.categories,
+        sources: preferences.sources,
+        authors: preferences.authors,
+        fromDate: undefined,
+        toDate: undefined,
+      },
+    });
+  },
 }));
+
+usePreferencesStore.persist.rehydrate()?.then(() => {
+  useFiltersStore.getState().initializeFilters();
+});
+
+usePreferencesStore.subscribe(state => {
+  useFiltersStore.setState(prev => ({
+    filters: {
+      ...prev.filters,
+      sources: state.preferences.sources,
+      categories: state.preferences.categories,
+      authors: state.preferences.authors,
+    },
+  }));
+});
