@@ -37,13 +37,23 @@ export const Filters = () => {
         label="From date:"
         placeholder="From date"
         value={parseDate(filters.fromDate)}
-        onChange={date => setFilter("fromDate", `${date?.year}-${date?.month}-${date?.day}`)}
+        onChange={date =>
+          setFilter(
+            "fromDate",
+            `${date?.year}-${date?.month.toString().padStart(2, "0")}-${date?.day.toString().padStart(2, "0")}`,
+          )
+        }
       />
       <DatePickerInput
         label="To date:"
         placeholder="To date"
         value={parseDate(filters.toDate)}
-        onChange={date => setFilter("toDate", `${date?.year}-${date?.month}-${date?.day}`)}
+        onChange={date =>
+          setFilter(
+            "toDate",
+            `${date?.year}-${date?.month.toString().padStart(2, "0")}-${date?.day.toString().padStart(2, "0")}`,
+          )
+        }
         minimumDate={parseDate(filters.fromDate)}
       />
     </div>
