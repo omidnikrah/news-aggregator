@@ -44,6 +44,7 @@ export const Filters = () => {
         placeholder="To date"
         value={parseDate(filters.toDate)}
         onChange={date => setFilter("toDate", `${date?.year}-${date?.month}-${date?.day}`)}
+        minimumDate={parseDate(filters.fromDate)}
       />
     </div>
   );
