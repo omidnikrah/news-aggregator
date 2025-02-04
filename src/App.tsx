@@ -1,16 +1,12 @@
-import { useNews } from "@src/queries";
-import { Filters, Header } from "@src/components";
+import { Header } from "@src/components";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
-  const { data } = useNews(["nyt", "newsapi", "guardian"]);
-
-  console.log(data);
-
   return (
-    <div>
+    <>
       <Header />
-      <Filters />
-    </div>
+      <Outlet />
+    </>
   );
 };
 
