@@ -1,7 +1,11 @@
+import { useNews } from "@src/queries";
+
 const App = () => {
-  return (
-    <h1>Hello News Aggregator</h1>
-  );
-}
+  const { data } = useNews(["nyt", "newsapi", "guardian"]);
+
+  console.log(data);
+
+  return <h1>Hello News Aggregator</h1>;
+};
 
 export default App;
