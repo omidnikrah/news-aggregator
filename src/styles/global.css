@@ -1,8 +1,11 @@
 @import "tailwindcss";
+@import "@amir04lm26/react-modern-calendar-date-picker/lib/DatePicker.css";
 
 @theme {
   --color-red: #e33131;
   --color-navy-blue: #444266;
+  --text-2xs: 8px;
+  --text-md: 16px;
 }
 
 body {
