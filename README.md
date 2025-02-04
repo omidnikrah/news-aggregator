@@ -43,9 +43,9 @@ Each news API **returns different response structures**, so we need a **consiste
 
 Each API has its own **adapter** that transforms the response.
 
-**Example:** `**newsAdapter.ts**`
+**Example:** `newsAdapter.ts`
 
-```
+```ts
 export const newsApiAdapter = (data: NewsApiResponse): Article[] =>
   data.articles.map(article =>
     formatArticle({
@@ -68,7 +68,7 @@ export const newsApiAdapter = (data: NewsApiResponse): Article[] =>
 
 ✅ **Easier to swap APIs in the future**.
 
-<br />
+---
 
 ### **2️⃣ Category Mapper**
 
@@ -76,7 +76,7 @@ Each API uses **different category names**, so we need to **map them** to a comm
 
 #### 🚀 Solution: `categoryMapper.ts`
 
-```
+```ts
 export const CATEGORY_MAPPING: Record<string, { newsapi?: string; guardian?: string; nyt?: string }> = {
   business: { newsapi: "business", guardian: "business", nyt: "Business" },
   sports: { newsapi: "sports", guardian: "sport", nyt: "Sports" },
@@ -88,7 +88,7 @@ export const CATEGORY_MAPPING: Record<string, { newsapi?: string; guardian?: str
 
 ✅ **Easier to expand** when adding more APIs.
 
-<br />
+---
 
 ### **3️⃣ Filters Store (Zustand)**
 
@@ -104,7 +104,7 @@ Instead of keeping state inside components, I **centralized it using Zustand**.
 
 #### 🚀 Solution: `useFiltersStore.ts`
 
-```
+```ts
 export const useFiltersStore = create<FiltersState>(set => ({
   filters: {
     query: "",
@@ -126,6 +126,7 @@ export const useFiltersStore = create<FiltersState>(set => ({
 
 ✅ **Persists user preferences** (can restore last-used filters).
 
+---
 
 ## 🐳 Docker Instructions
 
@@ -133,7 +134,7 @@ This project is **Dockerized** for easy deployment.
 
 ### **1️⃣ Build the Image**
 
-```
+```bash
 docker build -t news-aggregator --target=dev .
 ```
 
@@ -141,13 +142,13 @@ docker build -t news-aggregator --target=dev .
 
 #### **Development Mode (Hot Reloading &** `**.env**`**)**
 
-```
+```bash
 docker run -p 5173:5173 --env-file .env -v $(pwd):/app -v /app/node_modules --rm news-aggregator
 ```
 
 #### **Production Mode**
 
-```
+```bash
 docker run -p 80:80 --env-file .env.local --rm news-aggregator
 ```
 
